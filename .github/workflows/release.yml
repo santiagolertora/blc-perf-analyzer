@@ -30,11 +30,17 @@ jobs:
     
     - name: Build binaries
       run: |
+        VERSION=${{ steps.version.outputs.VERSION }}
+        BUILD_DATE=$(date -u '+%Y-%m-%d %H:%M:%S UTC')
+        GIT_COMMIT=$(git rev-parse --short HEAD)
+        
+        LDFLAGS="-s -w -X 'main.Version=${VERSION}' -X 'main.BuildDate=${BUILD_DATE}' -X 'main.GitCommit=${GIT_COMMIT}'"
+        
         # Linux amd64
-        GOOS=linux GOARCH=amd64 go build -ldflags="-s -w -X main.Version=${{ steps.version.outputs.VERSION }}" -o blc-perf-analyzer-linux-amd64 cmd/blc-perf-analyzer/main.go
+        GOOS=linux GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o blc-perf-analyzer-linux-amd64 cmd/blc-perf-analyzer/main.go
         
         # Linux arm64
-        GOOS=linux GOARCH=arm64 go build -ldflags="-s -w -X main.Version=${{ steps.version.outputs.VERSION }}" -o blc-perf-analyzer-linux-arm64 cmd/blc-perf-analyzer/main.go
+        GOOS=linux GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o blc-perf-analyzer-linux-arm64 cmd/blc-perf-analyzer/main.go
         
         # Create checksums
         sha256sum blc-perf-analyzer-linux-* > checksums.txt

@@ -14,18 +14,29 @@ import (
 )
 
 var (
+	// Build information
+	Version   = "dev"
+	BuildDate = "unknown"
+	GitCommit = "unknown"
+
+	// Flags
 	processName        string
 	pid                int
 	duration           int
 	generateFlamegraph bool
 	generateHeatmap    bool
 	heatmapWindowSize  float64
+	showVersion        bool
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "blc-perf-analyzer",
 	Short: "Automated CPU trace analysis tool for Linux (perf)",
-	Long: `BLC Perf Analyzer is an open source tool that automates the capture and analysis of CPU traces using perf, designed to detect and analyze bottlenecks in Linux processes.
+	Long: `BLC Perf Analyzer - Automated CPU Performance Analysis
+Author: Santiago Lertora (https://santiagolertora.com)
+
+An open source tool that automates the capture and analysis of CPU traces 
+using perf, designed to detect and analyze bottlenecks in Linux processes.
 
 When to use it?
 - Troubleshooting high CPU usage in production or staging environments
@@ -34,8 +45,8 @@ When to use it?
 - Generating flamegraphs for visualization and reporting
 - When you want actionable summaries without manual perf scripting
 
-Target users: SREs, DBAs, performance engineers, DevOps, and anyone needing to understand process internals under load.
-`,
+Target users: SREs, DBAs, performance engineers, DevOps, and anyone needing 
+to understand process internals under load.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// 1. Detectar sistema y verificar requisitos
 		sysInfo, err := detector.DetectSystem()
@@ -127,12 +138,19 @@ func init() {
 	rootCmd.PersistentFlags().BoolVar(&generateFlamegraph, "generate-flamegraph", false, "Generate a flamegraph SVG visualization")
 	rootCmd.PersistentFlags().BoolVar(&generateHeatmap, "generate-heatmap", false, "Generate an interactive temporal heatmap")
 	rootCmd.PersistentFlags().Float64Var(&heatmapWindowSize, "heatmap-window-size", 1.0, "Time window size in seconds for heatmap (default: 1.0)")
+	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "Show version information")
 
 	// Validation
 	rootCmd.MarkFlagsMutuallyExclusive("process", "pid")
 
 	// Add custom validation
 	rootCmd.PreRunE = func(cmd *cobra.Command, args []string) error {
+		// Handle version flag
+		if showVersion {
+			printVersion()
+			os.Exit(0)
+		}
+		
 		if processName == "" && pid == 0 {
 			return fmt.Errorf("either --process or --pid must be specified")
 		}
@@ -156,6 +174,17 @@ func init() {
 		}
 		return nil
 	}
+}
+
+func printVersion() {
+	fmt.Printf("BLC Perf Analyzer %s\n", Version)
+	fmt.Printf("Build Date: %s\n", BuildDate)
+	fmt.Printf("Git Commit: %s\n", GitCommit)
+	fmt.Println()
+	fmt.Println("Author: Santiago Lertora")
+	fmt.Println("Website: https://santiagolertora.com")
+	fmt.Println("GitHub: https://github.com/santiagolertora/blc-perf-analyzer")
+	fmt.Println("License: MIT")
 }
 
 func main() {
