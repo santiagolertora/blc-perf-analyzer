@@ -10,23 +10,23 @@
 
 Automated capture and analysis of CPU traces using `perf`, with interactive visualizations and pattern detection.
 
-[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Examples](#-examples) • [Documentation](#-documentation)
+[Features](#features) • [Installation](#installation) • [Usage](#usage) • [Examples](#examples) • [Documentation](#documentation)
 
 </div>
 
 ---
 
-## 🎯 Overview
+## Overview
 
 BLC Perf Analyzer is an open-source tool written in Go that automates the complex workflow of CPU performance profiling on Linux systems. It wraps the powerful `perf` tool and provides intelligent analysis, classification, and visualization of performance data.
 
-### When to Use It?
+### When to Use It
 
-- 🔥 **Production Issues**: Troubleshooting high CPU usage in production or staging environments
-- 🗄️ **Database Tuning**: Performance analysis of databases (MariaDB, PostgreSQL, MySQL)
-- 🔍 **Bottleneck Detection**: Quickly identifying userland vs. kernel bottlenecks
-- 📊 **Performance Reports**: Generating flamegraphs and heatmaps for visualization
-- ⚡ **Real-time Analysis**: Understanding process behavior under load without manual perf scripting
+- **Production Issues**: Troubleshooting high CPU usage in production or staging environments
+- **Database Tuning**: Performance analysis of databases (MariaDB, PostgreSQL, MySQL)
+- **Bottleneck Detection**: Quickly identifying userland vs. kernel bottlenecks
+- **Performance Reports**: Generating flamegraphs and heatmaps for visualization
+- **Real-time Analysis**: Understanding process behavior under load without manual perf scripting
 
 ### Target Users
 
@@ -39,24 +39,24 @@ BLC Perf Analyzer is an open-source tool written in Go that automates the comple
 
 ---
 
-## ✨ Features
+## Features
 
 ### Core Capabilities
 
-- ✅ **Automatic System Detection**: Detects OS distribution and installs `perf` if needed
-- 🔒 **Permission Management**: Verifies and guides on required kernel permissions
-- 🎯 **Flexible Targeting**: Analyze by process name or PID
-- ⏱️ **Configurable Duration**: Capture from seconds to hours
-- 📁 **Organized Output**: Timestamped directories with all analysis artifacts
+- **Automatic System Detection**: Detects OS distribution and installs `perf` if needed
+- **Permission Management**: Verifies and guides on required kernel permissions
+- **Flexible Targeting**: Analyze by process name or PID
+- **Configurable Duration**: Capture from seconds to hours
+- **Organized Output**: Timestamped directories with all analysis artifacts
 
 ### Advanced Analysis
 
-- 🔥 **Flamegraph Generation**: Interactive SVG flamegraphs using Brendan Gregg's scripts
-- 🌡️ **Temporal Heatmaps**: See CPU usage patterns evolve over time
-- 🧠 **Automatic Classification**: Categorizes functions as kernel/userland/libc/pthread/mysql
-- 📈 **Pattern Detection**: Identifies lock contention, syscall storms, and CPU spikes
-- 🎨 **Interactive Visualizations**: HTML-based heatmaps with Plotly.js
-- 📊 **Statistical Analysis**: Top functions, time distribution, thread activity
+- **Flamegraph Generation**: Interactive SVG flamegraphs using Brendan Gregg's scripts
+- **Temporal Heatmaps**: See CPU usage patterns evolve over time
+- **Automatic Classification**: Categorizes functions as kernel/userland/libc/pthread/mysql
+- **Pattern Detection**: Identifies lock contention, syscall storms, and CPU spikes
+- **Interactive Visualizations**: HTML-based heatmaps with Plotly.js
+- **Statistical Analysis**: Top functions, time distribution, thread activity
 
 ### Output Formats
 
@@ -67,7 +67,7 @@ BLC Perf Analyzer is an open-source tool written in Go that automates the comple
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 
@@ -343,7 +343,7 @@ go test -bench=. ./internal/heatmap
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these guidelines:
 
@@ -365,38 +365,7 @@ Contributions are welcome! Please follow these guidelines:
 
 ---
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👤 Author
-
-**Santiago Lertora**
-
-- GitHub: [@santiagolertora](https://github.com/santiagolertora)
-- Email: santiago@lertora.com
-
----
-
-## 🙏 Acknowledgments
-
-- [Brendan Gregg](http://www.brendangregg.com/) for FlameGraph scripts and performance methodology
-- The Linux `perf` development team
-- The Go community
-
----
-
-## 📖 Additional Resources
-
-- [Linux perf Wiki](https://perf.wiki.kernel.org/)
-- [Brendan Gregg's Blog](http://www.brendangregg.com/blog/)
-- [FlameGraph Repository](https://github.com/brendangregg/FlameGraph)
-
----
-
-## 🐛 Known Issues & Roadmap
+## Known Issues & Roadmap
 
 ### Known Issues
 
@@ -416,17 +385,31 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 👤 Author
+## Author
 
 **Santiago Lertora**
 
-- 🌐 Website: [santiagolertora.com](https://www.santiagolertora.com)
-- 📧 Email: [santiagolertora@gmail.com](mailto:santiagolertora@gmail.com)
-- 💼 GitHub: [@santiagolertora](https://github.com/santiagolertora)
+- Website: [santiagolertora.com](https://www.santiagolertora.com)
+- Email: [santiagolertora@gmail.com](mailto:santiagolertora@gmail.com)
+- GitHub: [@santiagolertora](https://github.com/santiagolertora)
 
 ---
 
-## 📄 License
+## Acknowledgments
+
+- [Brendan Gregg](http://www.brendangregg.com/) for FlameGraph scripts and performance methodology
+- The Linux `perf` development team
+- The Go community
+
+## Additional Resources
+
+- [Linux perf Wiki](https://perf.wiki.kernel.org/)
+- [Brendan Gregg's Blog](http://www.brendangregg.com/blog/)
+- [FlameGraph Repository](https://github.com/brendangregg/FlameGraph)
+
+---
+
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
@@ -434,9 +417,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**⭐ Star this repo if you find it useful!**
-
-Made with ❤️ for the SRE and DevOps community
+**Star this repo if you find it useful**
 
 [Report Bug](https://github.com/santiagolertora/blc-perf-analyzer/issues) • [Request Feature](https://github.com/santiagolertora/blc-perf-analyzer/issues)
 
