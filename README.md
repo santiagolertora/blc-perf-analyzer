@@ -416,10 +416,28 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
+## 👤 Author
+
+**Santiago Lertora**
+
+- 🌐 Website: [santiagolertora.com](https://www.santiagolertora.com)
+- 📧 Email: [santiagolertora@gmail.com](mailto:santiagolertora@gmail.com)
+- 💼 GitHub: [@santiagolertora](https://github.com/santiagolertora)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
 <div align="center">
 
 **⭐ Star this repo if you find it useful!**
 
 Made with ❤️ for the SRE and DevOps community
+
+[Report Bug](https://github.com/santiagolertora/blc-perf-analyzer/issues) • [Request Feature](https://github.com/santiagolertora/blc-perf-analyzer/issues)
 
 </div>
