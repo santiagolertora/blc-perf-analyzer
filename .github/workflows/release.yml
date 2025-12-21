@@ -1,0 +1,122 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+    
+    - name: Get version
+      id: version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+    
+    - name: Build binaries
+      run: |
+        # Linux amd64
+        GOOS=linux GOARCH=amd64 go build -ldflags="-s -w -X main.Version=${{ steps.version.outputs.VERSION }}" -o blc-perf-analyzer-linux-amd64 cmd/blc-perf-analyzer/main.go
+        
+        # Linux arm64
+        GOOS=linux GOARCH=arm64 go build -ldflags="-s -w -X main.Version=${{ steps.version.outputs.VERSION }}" -o blc-perf-analyzer-linux-arm64 cmd/blc-perf-analyzer/main.go
+        
+        # Create checksums
+        sha256sum blc-perf-analyzer-linux-* > checksums.txt
+        
+        # Make executable
+        chmod +x blc-perf-analyzer-linux-*
+        
+        # Show info
+        ls -lh blc-perf-analyzer-linux-*
+        cat checksums.txt
+    
+    - name: Generate release notes
+      id: release_notes
+      run: |
+        # Extract version from tag
+        VERSION=${{ steps.version.outputs.VERSION }}
+        
+        # Generate release notes
+        cat > release_notes.md << 'EOF'
+        ## BLC Perf Analyzer ${{ steps.version.outputs.VERSION }}
+        
+        ### Installation
+        
+        **Linux (amd64):**
+        ```bash
+        wget https://github.com/santiagolertora/blc-perf-analyzer/releases/download/${{ steps.version.outputs.VERSION }}/blc-perf-analyzer-linux-amd64
+        chmod +x blc-perf-analyzer-linux-amd64
+        sudo mv blc-perf-analyzer-linux-amd64 /usr/local/bin/blc-perf-analyzer
+        ```
+        
+        **Linux (arm64):**
+        ```bash
+        wget https://github.com/santiagolertora/blc-perf-analyzer/releases/download/${{ steps.version.outputs.VERSION }}/blc-perf-analyzer-linux-arm64
+        chmod +x blc-perf-analyzer-linux-arm64
+        sudo mv blc-perf-analyzer-linux-arm64 /usr/local/bin/blc-perf-analyzer
+        ```
+        
+        ### Verify Installation
+        
+        ```bash
+        blc-perf-analyzer --help
+        ```
+        
+        ### What's New
+        
+        See [CHANGELOG.md](https://github.com/santiagolertora/blc-perf-analyzer/blob/main/CHANGELOG.md) for detailed changes.
+        
+        ### Checksums (SHA256)
+        
+        ```
+        $(cat checksums.txt)
+        ```
+        
+        ---
+        
+        **Full Changelog**: https://github.com/santiagolertora/blc-perf-analyzer/compare/v1.0.0...${{ steps.version.outputs.VERSION }}
+        EOF
+        
+        cat release_notes.md
+    
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        body_path: release_notes.md
+        files: |
+          blc-perf-analyzer-linux-amd64
+          blc-perf-analyzer-linux-arm64
+          checksums.txt
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Summary
+      run: |
+        echo "### Release Created! 🚀" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Version:** ${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Binaries:**" >> $GITHUB_STEP_SUMMARY
+        echo "- Linux amd64: $(ls -lh blc-perf-analyzer-linux-amd64 | awk '{print $5}')" >> $GITHUB_STEP_SUMMARY
+        echo "- Linux arm64: $(ls -lh blc-perf-analyzer-linux-arm64 | awk '{print $5}')" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Download:** https://github.com/santiagolertora/blc-perf-analyzer/releases/tag/${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
+

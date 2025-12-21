@@ -69,35 +69,56 @@ BLC Perf Analyzer is an open-source tool written in Go that automates the comple
 
 ## Installation
 
-### Prerequisites
+### Option 1: Download Pre-compiled Binary (Recommended)
 
-- **OS**: Linux (any distribution)
-- **Go**: 1.19 or higher
-- **Root/Sudo**: Required for perf capture
+**Linux (amd64):**
+```bash
+wget https://github.com/santiagolertora/blc-perf-analyzer/releases/latest/download/blc-perf-analyzer-linux-amd64
+chmod +x blc-perf-analyzer-linux-amd64
+sudo mv blc-perf-analyzer-linux-amd64 /usr/local/bin/blc-perf-analyzer
+```
 
-### Build from Source
+**Linux (arm64):**
+```bash
+wget https://github.com/santiagolertora/blc-perf-analyzer/releases/latest/download/blc-perf-analyzer-linux-arm64
+chmod +x blc-perf-analyzer-linux-arm64
+sudo mv blc-perf-analyzer-linux-arm64 /usr/local/bin/blc-perf-analyzer
+```
+
+**Verify installation:**
+```bash
+blc-perf-analyzer --help
+```
+
+### Option 2: Build from Source
+
+**Prerequisites:**
+- OS: Linux (any distribution)
+- Go: 1.19 or higher
 
 ```bash
 # Clone the repository
 git clone https://github.com/santiagolertora/blc-perf-analyzer.git
-cd blcperfanalyzer
+cd blc-perf-analyzer
 
 # Build
-go build -o blc-perf-analyzer cmd/blc-perf-analyzer/main.go
+make build
 
-# Optional: Install to system
-sudo mv blc-perf-analyzer /usr/local/bin/
+# Install to system
+sudo make install
 ```
 
-### Quick Install
+### Option 3: Go Install
 
 ```bash
 go install github.com/santiagolertora/blc-perf-analyzer/cmd/blc-perf-analyzer@latest
 ```
 
+**Note:** Root/sudo is required for perf capture operations.
+
 ---
 
-## 💻 Usage
+## Usage
 
 ### Basic Syntax
 
