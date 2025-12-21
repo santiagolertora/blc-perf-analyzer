@@ -430,6 +430,23 @@ Contributions are welcome! Please follow these guidelines:
 
 ---
 
+## Support This Project
+
+If you find this tool useful, consider supporting its development:
+
+### GitHub Sponsors
+[Sponsor on GitHub](https://github.com/sponsors/santiagolertora)
+
+### Cryptocurrency
+
+- **Bitcoin (BTC):** `[TU_DIRECCION_BTC]`
+- **Ethereum (ETH):** `[TU_DIRECCION_ETH]`
+- **USDT (TRC20):** `[TU_DIRECCION_USDT]`
+
+Your support helps maintain and improve this tool. Thank you! 🙏
+
+---
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
