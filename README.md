@@ -67,6 +67,22 @@ BLC Perf Analyzer is an open-source tool written in Go that automates the comple
 
 ---
 
+## Screenshots
+
+### Interactive Temporal Heatmap
+
+![CPU Performance Heatmap](docs/images/heatmap-function-activity.png)
+
+The heatmap shows function activity over time with:
+- Color-coded intensity (hot functions = brighter)
+- Multiple analysis views (functions, threads, kernel/userland)
+- Interactive zoom and filtering
+- Automatic pattern detection
+
+**[See more examples and detailed analysis →](docs/EXAMPLES.md)**
+
+---
+
 ## Installation
 
 ### Option 1: Download Pre-compiled Binary (Recommended)
@@ -141,90 +157,43 @@ blc-perf-analyzer --pid <number> [flags]
 
 ---
 
-## 📚 Examples
+## Examples
 
-### Example 1: Quick CPU Profile
+### Quick Start
 
-Analyze a MariaDB process for 30 seconds (basic output):
-
+**Basic CPU profiling:**
 ```bash
-sudo blc-perf-analyzer --process mariadbd
+sudo blc-perf-analyzer --process mariadbd --duration 30
 ```
 
-**Output:**
-```
-blc-perf-analyzer-20231216-143022/
-├── perf.data
-└── perf-output.txt
-```
-
-### Example 2: Full Analysis with Flamegraph
-
-Generate a flamegraph for a 60-second capture:
-
+**With flamegraph:**
 ```bash
 sudo blc-perf-analyzer --process nginx --duration 60 --generate-flamegraph
 ```
 
-**Output:**
-```
-blc-perf-analyzer-20231216-143022/
-├── perf.data
-├── perf-report.txt
-├── flamegraph.svg      ← Open in browser
-├── perf.folded
-├── summary.json
-└── summary.txt
-```
-
-### Example 3: Temporal Heatmap Analysis
-
-Analyze CPU usage patterns over time with 1-second windows:
-
+**Full analysis with temporal heatmap:**
 ```bash
-sudo blc-perf-analyzer --pid 1234 --duration 120 --generate-heatmap
+sudo blc-perf-analyzer --pid 1234 --duration 120 --generate-heatmap --generate-flamegraph
 ```
 
-**Output:**
-```
-blc-perf-analyzer-20231216-143022/
-├── perf.data
-├── perf-report.txt
-├── heatmap.html        ← Open in browser
-├── heatmap-data.json
-├── patterns.json       ← Detected anomalies
-├── summary.json
-└── summary.txt
-```
+### Real-World Results
 
-### Example 4: Complete Analysis
+**Tested in production environments:**
+- **MariaDB**: 740,652 samples captured, 3 anomalies detected
+- **ScyllaDB**: 22,725 samples captured, kernel/userland distribution analyzed
+- **Demo workload**: 951,087 samples captured, 5 distinct patterns identified
 
-Get everything - flamegraph, heatmap, and all reports:
+**Output includes:**
+- Interactive HTML heatmaps (see screenshots above)
+- SVG flamegraphs
+- JSON data for integration
+- Text summaries with recommendations
 
-```bash
-sudo blc-perf-analyzer \
-  --process postgres \
-  --duration 300 \
-  --generate-flamegraph \
-  --generate-heatmap \
-  --heatmap-window-size 2.0
-```
-
-### Example 5: High-Resolution Heatmap
-
-For fast-changing workloads, use smaller time windows:
-
-```bash
-sudo blc-perf-analyzer \
-  --process redis-server \
-  --duration 60 \
-  --generate-heatmap \
-  --heatmap-window-size 0.5  # 500ms windows
-```
+**[See detailed examples with screenshots →](docs/EXAMPLES.md)**
 
 ---
 
-## 📊 Understanding the Output
+## Understanding the Output
 
 ### Summary Text (`summary.txt`)
 

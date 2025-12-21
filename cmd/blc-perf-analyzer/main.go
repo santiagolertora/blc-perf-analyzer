@@ -150,7 +150,7 @@ func init() {
 			printVersion()
 			os.Exit(0)
 		}
-		
+
 		if processName == "" && pid == 0 {
 			return fmt.Errorf("either --process or --pid must be specified")
 		}

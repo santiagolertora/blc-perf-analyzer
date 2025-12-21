@@ -4,9 +4,16 @@
 *.dll
 *.so
 *.dylib
-blc-perf-analyzer
-blc-perf-analyzer-*
-!blc-perf-analyzer-*/
+
+# Binary executables
+/blc-perf-analyzer
+/blc-perf-analyzer-linux
+/bin/blc-perf-analyzer
+/bin/blc-perf-analyzer-linux
+/bin/blc-perf-analyzer-*
+
+# But keep source code directory
+!cmd/blc-perf-analyzer/
 
 # Test binary, built with `go test -c`
 *.test
