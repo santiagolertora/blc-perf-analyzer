@@ -1,0 +1,63 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+blc-perf-analyzer
+blc-perf-analyzer-*
+!blc-perf-analyzer-*/
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.txt
+coverage.html
+
+# Go workspace file
+go.work
+
+# Dependency directories
+vendor/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Perf output directories
+blc-perf-analyzer-[0-9]*
+
+# Test results and analysis directories
+test-results/
+test-results-final/
+mariadb-analysis/
+demo-analysis/
+scylladb-analysis/
+*-analysis/
+
+# Temporary files
+*.tmp
+*.bak
+
+# Debug files
+debug
+*.log
+
+# OS specific
+Thumbs.db
+
+# Workspace files
+*.code-workspace
+
+# Internal documentation (keep private)
+RETOMAR.md
+DECISION_GITHUB.md
+IMPLEMENTATION_SUMMARY.md
+prd.md
+
