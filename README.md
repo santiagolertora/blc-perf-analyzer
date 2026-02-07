@@ -408,9 +408,9 @@ If you find this tool useful, consider supporting its development:
 
 ### Cryptocurrency
 
-- **Bitcoin (BTC):** `[TU_DIRECCION_BTC]`
-- **Ethereum (ETH):** `[TU_DIRECCION_ETH]`
-- **USDT (TRC20):** `[TU_DIRECCION_USDT]`
+- **Bitcoin (BTC):** `bc1q0hxzrpryty3y8rjz79qad7t4wddhljqevgs242`
+- **Ethereum (ETH):** `0x4C8B03bB1AE1924Ab0c68fe91efe0353295140A5`
+- **Solana (SOL):** `6aSFvGDtLnFijEprzJCjvXJXCk6D6Mwy7i9pfLMATBwv`
 
 Your support helps maintain and improve this tool. Thank you! 🙏
 
