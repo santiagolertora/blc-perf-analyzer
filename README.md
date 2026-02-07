@@ -146,11 +146,28 @@ blc-perf-analyzer --pid <number> [flags]
 
 ### Flags
 
+#### Target Selection
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
 | `--process` | `-p` | string | - | Process name to analyze (e.g., 'mariadbd') |
 | `--pid` | - | int | - | Process ID to analyze |
+
+#### Timing Control
+| Flag | Short | Type | Default | Description |
+|------|-------|------|---------|-------------|
 | `--duration` | `-d` | int | 30 | Capture duration in seconds |
+| `--profile-window` | - | int | - | Alternative to --duration for clarity |
+| `--delay-start` | - | int | 0 | Wait N seconds before capture (excludes warm-up) |
+
+#### Output Control
+| Flag | Short | Type | Default | Description |
+|------|-------|------|---------|-------------|
+| `--output-dir` | - | string | auto | Output directory path |
+| `--quiet` | `-q` | bool | false | Minimal output, prints only result path |
+
+#### Analysis Options
+| Flag | Short | Type | Default | Description |
+|------|-------|------|---------|-------------|
 | `--generate-flamegraph` | - | bool | false | Generate flamegraph visualization |
 | `--generate-heatmap` | - | bool | false | Generate temporal heatmap |
 | `--heatmap-window-size` | - | float | 1.0 | Time window size for heatmap (seconds) |
@@ -174,6 +191,37 @@ sudo blc-perf-analyzer --process nginx --duration 60 --generate-flamegraph
 **Full analysis with temporal heatmap:**
 ```bash
 sudo blc-perf-analyzer --pid 1234 --duration 120 --generate-heatmap --generate-flamegraph
+```
+
+### Benchmark Integration
+
+**Exclude warm-up period (30s delay):**
+```bash
+sudo blc-perf-analyzer \
+  --process mariadbd \
+  --delay-start 30 \
+  --profile-window 60 \
+  --generate-flamegraph
+```
+
+**Automated testing (quiet mode):**
+```bash
+RESULT_DIR=$(sudo blc-perf-analyzer \
+  --process myapp \
+  --delay-start 10 \
+  --profile-window 30 \
+  --generate-heatmap \
+  --quiet)
+echo "Results saved to: $RESULT_DIR"
+```
+
+**Custom output directory:**
+```bash
+sudo blc-perf-analyzer \
+  --process postgres \
+  --duration 60 \
+  --output-dir /var/log/perf-analysis/run-001 \
+  --generate-flamegraph
 ```
 
 ### Real-World Results
@@ -365,13 +413,13 @@ Contributions are welcome! Please follow these guidelines:
 
 ### Roadmap
 
-- [ ] Web UI mode (`--web`) for live viewing
-- [ ] Comparative analysis between two captures
-- [ ] Docker/container-aware filtering
-- [ ] Prometheus/InfluxDB integration
-- [ ] Database-specific profiles (MariaDB/PostgreSQL/MongoDB)
-- [ ] Off-CPU analysis support
-- [ ] Multi-process capture
+See [ROADMAP.md](ROADMAP.md) for detailed feature planning.
+
+#### Phase 1 - Core Usability (In Progress)
+- [x] Delayed profiling with warm-up exclusion
+- [ ] Compare mode between captures
+- [ ] Non-root execution with CAP_PERFMON
+- [ ] Symbol resolution improvements
 
 ---
 

@@ -17,7 +17,9 @@ type CaptureConfig struct {
 	ProcessName string
 	PID         int
 	Duration    int
+	DelayStart  int
 	OutputDir   string
+	QuietMode   bool
 }
 
 // CaptureResult contains the results of the capture
@@ -41,11 +43,26 @@ func Capture(config *CaptureConfig) (*CaptureResult, error) {
 		return nil, fmt.Errorf("duration must be greater than 0")
 	}
 
+	var targetPID int
+
 	if config.PID > 0 {
+		targetPID = config.PID
 		// Verify that the process exists
 		if _, err := os.Stat(fmt.Sprintf("/proc/%d", config.PID)); err != nil {
 			return nil, fmt.Errorf("process with PID %d does not exist: %v", config.PID, err)
 		}
+	} else if config.ProcessName != "" {
+		// Lookup PID by process name
+		pid, err := process.GetPidByName(config.ProcessName)
+		if err != nil {
+			return nil, fmt.Errorf("could not find PID for process '%s': %v", config.ProcessName, err)
+		}
+		targetPID = pid
+		if !config.QuietMode {
+			fmt.Printf("Found process '%s' with PID: %d\n", config.ProcessName, targetPID)
+		}
+	} else {
+		return nil, fmt.Errorf("either PID or process name must be provided")
 	}
 
 	// Create output directory if it doesn't exist
@@ -53,36 +70,58 @@ func Capture(config *CaptureConfig) (*CaptureResult, error) {
 		return nil, fmt.Errorf("error creating output directory: %v", err)
 	}
 
-	// Build perf command
-	args := []string{"record", "-g"}
-
-	if config.PID > 0 {
-		args = append(args, "-p", strconv.Itoa(config.PID))
-	} else if config.ProcessName != "" {
-		// Lookup PID by process name
-		pid, err := process.GetPidByName(config.ProcessName)
-		if err != nil {
-			return nil, fmt.Errorf("could not find PID for process '%s': %v", config.ProcessName, err)
+	// Handle delay start
+	if config.DelayStart > 0 {
+		if !config.QuietMode {
+			fmt.Printf("Waiting %d seconds before starting capture...\n", config.DelayStart)
 		}
-		args = append(args, "-p", strconv.Itoa(pid))
-	} else {
-		return nil, fmt.Errorf("either PID or process name must be provided")
+
+		// Wait with periodic process liveness checks
+		ticker := time.NewTicker(1 * time.Second)
+		defer ticker.Stop()
+
+		elapsed := 0
+		for range ticker.C {
+			elapsed++
+
+			// Check if process is still alive
+			if _, err := os.Stat(fmt.Sprintf("/proc/%d", targetPID)); err != nil {
+				return nil, fmt.Errorf("process terminated during delay period (after %d seconds)", elapsed)
+			}
+
+			if !config.QuietMode && elapsed%5 == 0 {
+				fmt.Printf("  ... %d/%d seconds elapsed\n", elapsed, config.DelayStart)
+			}
+
+			if elapsed >= config.DelayStart {
+				break
+			}
+		}
+
+		if !config.QuietMode {
+			fmt.Println("Starting capture now...")
+		}
 	}
 
-	// Add duration
-	args = append(args, "--", "sleep", strconv.Itoa(config.Duration))
+	// Final liveness check before capture
+	if _, err := os.Stat(fmt.Sprintf("/proc/%d", targetPID)); err != nil {
+		return nil, fmt.Errorf("process with PID %d no longer exists: %v", targetPID, err)
+	}
+
+	// Build perf command
+	args := []string{"record", "-g", "-p", strconv.Itoa(targetPID), "--", "sleep", strconv.Itoa(config.Duration)}
+
+	if !config.QuietMode {
+		fmt.Printf("Capturing CPU profile for %d seconds (PID: %d)...\n", config.Duration, targetPID)
+	}
 
 	// Run perf
-	cmd := exec.Command("perf", args...)
-	cmd.Dir = config.OutputDir
-
 	stderr := make([]byte, 0)
-	cmd.Stderr = &stderrWriter{buf: &stderr}
 
 	// Add timeout context
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(config.Duration+5)*time.Second)
 	defer cancel()
-	cmd = exec.CommandContext(ctx, "perf", args...)
+	cmd := exec.CommandContext(ctx, "perf", args...)
 	cmd.Dir = config.OutputDir
 	cmd.Stderr = &stderrWriter{buf: &stderr}
 
@@ -99,7 +138,9 @@ func Capture(config *CaptureConfig) (*CaptureResult, error) {
 		perfDataPath := filepath.Join(config.OutputDir, "perf.data")
 		if _, statErr := os.Stat(perfDataPath); statErr == nil {
 			// perf.data exists, so warnings are non-fatal
-			fmt.Printf("Warning: perf had warnings but capture succeeded:\n%s\n", errMsg)
+			if !config.QuietMode {
+				fmt.Printf("Warning: perf had warnings but capture succeeded:\n%s\n", errMsg)
+			}
 			result.PerfDataPath = perfDataPath
 			result.EndTime = time.Now()
 			return result, nil
@@ -119,6 +160,10 @@ func Capture(config *CaptureConfig) (*CaptureResult, error) {
 
 	result.PerfDataPath = perfDataPath
 	result.EndTime = time.Now()
+
+	if !config.QuietMode {
+		fmt.Printf("Capture completed successfully.\n")
+	}
 
 	return result, nil
 }
