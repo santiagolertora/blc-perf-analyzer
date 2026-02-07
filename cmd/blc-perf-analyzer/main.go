@@ -117,8 +117,8 @@ to understand process internals under load.`,
 		}
 
 		if !quietMode {
-			fmt.Printf("\n✓ Analysis complete. Results saved in: %s\n", finalOutputDir)
-			fmt.Println("\n📁 Generated files:")
+			fmt.Printf("\nAnalysis complete. Results saved in: %s\n", finalOutputDir)
+			fmt.Println("\nGenerated files:")
 			fmt.Println("   - perf.data: Raw perf data")
 
 			if generateFlamegraph || generateHeatmap {
@@ -142,7 +142,7 @@ to understand process internals under load.`,
 				fmt.Println("   - perf-output.txt: Processed perf script output")
 			}
 
-			fmt.Println("\n💡 Tips:")
+			fmt.Println("\nTips:")
 			fmt.Println("   - Use --generate-flamegraph to visualize call stacks")
 			fmt.Println("   - Use --generate-heatmap to see performance over time")
 			fmt.Println("   - Use --delay-start to exclude warm-up periods")

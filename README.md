@@ -413,13 +413,17 @@ Contributions are welcome! Please follow these guidelines:
 
 ### Roadmap
 
-See [ROADMAP.md](ROADMAP.md) for detailed feature planning.
-
 #### Phase 1 - Core Usability (In Progress)
 - [x] Delayed profiling with warm-up exclusion
 - [ ] Compare mode between captures
 - [ ] Non-root execution with CAP_PERFMON
 - [ ] Symbol resolution improvements
+
+#### Future Plans
+- Database-specific profiles (MariaDB, PostgreSQL, MySQL)
+- Container/Docker awareness
+- Comparative analysis tools
+- Advanced pattern detection
 
 ---
 
