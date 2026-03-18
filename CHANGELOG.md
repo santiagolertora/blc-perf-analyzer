@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Delayed profiling start** (`--delay-start`) for excluding warm-up periods in benchmarks
+- **Profile window** (`--profile-window`) as explicit alternative to `--duration`
+- **Quiet mode** (`--quiet` / `-q`) for minimal output in automated scenarios
+- **Custom output directory** (`--output-dir`) for explicit result path control
+- **Process liveness checking** during delay period to detect early termination
+- **Enhanced help documentation** with organized flag categories
+
+### Changed
+- Improved CLI flag organization (target, timing, output, analysis)
+- Better output messages with capture progress indicators
+- Refactored capture logic to support delayed start workflow
+
 ## [1.0.0] - 2024-12-16
 
 ### Added
