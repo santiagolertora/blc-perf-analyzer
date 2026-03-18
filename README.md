@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 ![Go Version](https://img.shields.io/badge/go-%3E%3D1.19-00ADD8.svg)
 ![Platform](https://img.shields.io/badge/platform-Linux-lightgrey.svg)
 
@@ -355,23 +355,11 @@ Contributions are welcome! Please follow these guidelines:
 
 ---
 
-## Known Issues & Roadmap
+## Known Issues
 
-### Known Issues
-
-- Requires root/sudo for capture
 - Linux-only (no macOS/Windows support)
 - Large captures (>1GB) may be slow to parse
-
-### Roadmap
-
-- [ ] Web UI mode (`--web`) for live viewing
-- [ ] Comparative analysis between two captures
-- [ ] Docker/container-aware filtering
-- [ ] Prometheus/InfluxDB integration
-- [ ] Database-specific profiles (MariaDB/PostgreSQL/MongoDB)
-- [ ] Off-CPU analysis support
-- [ ] Multi-process capture
+- Root/sudo required for capture (use `CAP_PERFMON` for non-root profiling - see future releases)
 
 ---
 

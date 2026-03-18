@@ -62,9 +62,13 @@ Thumbs.db
 # Workspace files
 *.code-workspace
 
-# Internal documentation (keep private)
-RETOMAR.md
-DECISION_GITHUB.md
-IMPLEMENTATION_SUMMARY.md
-prd.md
+# Development notes and drafts
+*.draft
+*.wip
+.scratch/
 
+# Local development environment
+.env.local
+.cache/
+internal-docs/
+node_modules/
