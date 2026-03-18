@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 ![Go Version](https://img.shields.io/badge/go-%3E%3D1.19-00ADD8.svg)
 ![Platform](https://img.shields.io/badge/platform-Linux-lightgrey.svg)
 
@@ -403,27 +403,11 @@ Contributions are welcome! Please follow these guidelines:
 
 ---
 
-## Known Issues & Roadmap
+## Known Issues
 
-### Known Issues
-
-- Requires root/sudo for capture
 - Linux-only (no macOS/Windows support)
 - Large captures (>1GB) may be slow to parse
-
-### Roadmap
-
-#### Phase 1 - Core Usability (In Progress)
-- [x] Delayed profiling with warm-up exclusion
-- [ ] Compare mode between captures
-- [ ] Non-root execution with CAP_PERFMON
-- [ ] Symbol resolution improvements
-
-#### Future Plans
-- Database-specific profiles (MariaDB, PostgreSQL, MySQL)
-- Container/Docker awareness
-- Comparative analysis tools
-- Advanced pattern detection
+- Root/sudo required for capture (use `CAP_PERFMON` for non-root profiling - see future releases)
 
 ---
 
